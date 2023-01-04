@@ -22,7 +22,7 @@ interface IProfileData {
   name: string
   company: string
   followers: string
-  url: string
+  html_url: string
   bio: string
 }
 // ---------------------------------------------------------------------------
@@ -96,7 +96,7 @@ export function BlogContext({ children }: IBlogContextProviderProps) {
           name: data.name,
           company: data.company,
           followers: data.followers,
-          url: data.url,
+          url: data.html_url,
           bio: data.bio,
         }
       })

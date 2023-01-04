@@ -1,22 +1,14 @@
-import { useContext } from 'react'
-import { BlogProvider } from '../../contexts/BlogContext'
+// CSS
 import { HomeContainer } from './styles'
+// Components
+import { Profile } from './components/Profile'
+import { BlogPosts } from './components/BlogPosts'
 
 export function Home() {
-  const { profile, blogPosts } = useContext(BlogProvider)
-
-  console.log(profile, blogPosts)
-
   return (
     <HomeContainer>
-      <img src={profile?.avatar} alt="" />
-      <div>
-        <h1>{profile?.name}</h1>
-        <h3>{profile?.bio}</h3>
-        <p>{profile?.userName}</p>
-        <p>{profile?.company}</p>
-        <p>{profile?.followers}</p>
-      </div>
+      <Profile />
+      <BlogPosts />
     </HomeContainer>
   )
 }

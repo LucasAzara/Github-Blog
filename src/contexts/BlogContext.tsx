@@ -67,6 +67,7 @@ interface IBlogContextProvider {
   profile: IProfile | undefined
   blogPosts: IBlog[]
   getPost: (url: string) => Promise<IPost>
+  getGithubPosts: (search: string) => Promise<void>
 }
 
 interface IBlogContextProviderProps {
@@ -106,8 +107,10 @@ export function BlogContext({ children }: IBlogContextProviderProps) {
   const getGithubPosts = async (
     search: string = 'repo:LucasAzara/Github-Blog',
   ) => {
+    const searchValue = search + 'repo:LucasAzara/Github-Blog'
+
     const githubPosts = await blog
-      .get('', { params: { q: search } })
+      .get('', { params: { q: searchValue } })
       .then((res) => res.data.items)
       .then((items: IBlogData[]): IBlog[] => {
         return items.map((item) => {
@@ -141,11 +144,13 @@ export function BlogContext({ children }: IBlogContextProviderProps) {
 
   useEffect(() => {
     getProfileInfo()
-    getGithubPosts()
+    getGithubPosts('')
   }, [])
 
   return (
-    <BlogProvider.Provider value={{ profile, blogPosts, getPost }}>
+    <BlogProvider.Provider
+      value={{ profile, blogPosts, getPost, getGithubPosts }}
+    >
       {children}
     </BlogProvider.Provider>
   )

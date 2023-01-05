@@ -34,7 +34,7 @@ export const Posts = styled.div`
     right: 32px;
   }
 `
-export const SearchBar = styled.div`
+export const SearchBar = styled.form`
   div {
     display: flex;
     flex-direction: row;
@@ -58,6 +58,9 @@ export const SearchBar = styled.div`
     padding: 12px;
     &::placeholder {
       color: ${(props) => props.theme['base-label']};
+    }
+    &:disabled {
+      cursor: not-allowed;
     }
   }
 `

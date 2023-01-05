@@ -11,6 +11,7 @@ import { BlogProvider } from '../../../../contexts/BlogContext'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { NavLink } from 'react-router-dom'
 
 // Zod Schema
 const searchFormSchema = z.object({
@@ -59,14 +60,14 @@ export function BlogPosts() {
             new Date(),
             new Date(post.lastUpdate),
           )
-
           const postPreview = post.body.slice(0, 255) + '...'
+          const postId = post.link.at(-1)
 
           return (
             <Posts key={index + post.title}>
-              <a href={post.link}>
+              <NavLink to={`/post/${postId}`}>
                 <h1>{post.title}</h1>
-              </a>
+              </NavLink>
               <p>
                 <ReactMarkdown>{postPreview}</ReactMarkdown>
               </p>

@@ -42,7 +42,7 @@ interface IBlogData {
 }
 // ---------------------------------------------------------------------------
 // Posts
-interface IPost {
+export interface IPost {
   title: string
   user: string
   date: string
@@ -66,7 +66,8 @@ interface IPostData {
 interface IBlogContextProvider {
   profile: IProfile | undefined
   blogPosts: IBlog[]
-  getPost: (url: string) => Promise<IPost>
+  postData: IPost | undefined
+  getPost: (url: string) => Promise<void>
   getGithubPosts: (search: string) => Promise<void>
 }
 
@@ -85,6 +86,7 @@ export const BlogProvider = createContext({} as IBlogContextProvider)
 export function BlogContext({ children }: IBlogContextProviderProps) {
   const [profile, setProfile] = useState<IProfile>()
   const [blogPosts, setBlogPosts] = useState<IBlog[]>([])
+  const [postData, setPostData] = useState<IPost>()
 
   const getProfileInfo = async (profile: string = 'LucasAzara') => {
     const githubInfo = await user
@@ -126,9 +128,11 @@ export function BlogContext({ children }: IBlogContextProviderProps) {
     setBlogPosts(githubPosts)
   }
 
-  const getPost = async (url: string = '/LucasAzara/Github-Blog/issues/1') => {
-    return await post
-      .get(url)
+  const getPost = async (postId: string) => {
+    const postApiLink = `/LucasAzara/Github-Blog/issues/${postId}`
+
+    const postData = await post
+      .get(postApiLink)
       .then((res) => res.data)
       .then((data: IPostData): IPost => {
         return {
@@ -140,6 +144,8 @@ export function BlogContext({ children }: IBlogContextProviderProps) {
           url: data.html_url,
         }
       })
+
+    setPostData(postData)
   }
 
   useEffect(() => {
@@ -149,7 +155,7 @@ export function BlogContext({ children }: IBlogContextProviderProps) {
 
   return (
     <BlogProvider.Provider
-      value={{ profile, blogPosts, getPost, getGithubPosts }}
+      value={{ profile, blogPosts, postData, getPost, getGithubPosts }}
     >
       {children}
     </BlogProvider.Provider>

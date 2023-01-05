@@ -8,6 +8,8 @@ import { DefaultLayout } from './layout/DefaultLayout'
 // Global Style
 import { GlobalStyle } from './styles/global'
 import { defaultTheme } from './styles/themes/default'
+import { BrowserRouter } from 'react-router-dom'
+import { Router } from './Router'
 
 function App() {
   return (
@@ -16,9 +18,9 @@ function App() {
       {/* Context Values */}
       <BlogContext>
         {/* Pages */}
-        <DefaultLayout>
-          <Home />
-        </DefaultLayout>
+        <BrowserRouter>
+          <Router />
+        </BrowserRouter>
       </BlogContext>
       {/* Global Style */}
       <GlobalStyle />

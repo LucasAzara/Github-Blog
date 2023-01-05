@@ -4,17 +4,16 @@ import { ReactNode } from 'react'
 import { LayoutContainer } from './styles'
 // Header
 import { Header } from '../../components/Header'
+// Used to Generate Other Page Components
+import { Outlet } from 'react-router-dom'
 
-// Interface
-interface IDefaultLayout {
-  children: ReactNode
-}
-
-export function DefaultLayout({ children }: IDefaultLayout) {
+export function DefaultLayout() {
   return (
     <>
       <Header />
-      <LayoutContainer>{children}</LayoutContainer>
+      <LayoutContainer>
+        <Outlet />
+      </LayoutContainer>
     </>
   )
 }

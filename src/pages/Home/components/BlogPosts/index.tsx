@@ -37,6 +37,7 @@ export function BlogPosts() {
 
   const handleSearch = async (data: TSearchFormSchema) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
+    // Query to search for Post
     getGithubPosts(data.query)
   }
 

@@ -1,5 +1,5 @@
 // Use Parameter from Router
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink, useParams, ScrollRestoration } from 'react-router-dom'
 // Context
 import { useContext, useEffect, useState } from 'react'
 import { BlogProvider, IPost } from '../../contexts/BlogContext'
@@ -34,7 +34,6 @@ export function Post() {
   const { getPost } = useContext(BlogProvider)
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     async function handleGetPost() {
       const postData = await getPost(postId!)
       setPost(postData)
@@ -82,6 +81,7 @@ export function Post() {
       <PostContent>
         <ReactMarkdown>{post ? post.body : ''}</ReactMarkdown>
       </PostContent>
+      <ScrollRestoration />
     </PostContainer>
   )
 }

@@ -1,5 +1,5 @@
 // Use Parameter from Router
-import { NavLink, useParams, ScrollRestoration } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 // Context
 import { useContext, useEffect, useState } from 'react'
 import { BlogProvider, IPost } from '../../contexts/BlogContext'
@@ -33,7 +33,9 @@ export function Post() {
   // BlogPosts
   const { getPost } = useContext(BlogProvider)
 
+  // Get Post Data
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     async function handleGetPost() {
       const postData = await getPost(postId!)
       setPost(postData)
@@ -41,11 +43,10 @@ export function Post() {
     handleGetPost()
   }, [getPost, postId])
 
+  // Variable for Post Date
   let timeDifference
 
-  if (post) {
-    timeDifference = differenceInDays(new Date(), new Date(post?.date!))
-  }
+  if (post) timeDifference = differenceInDays(new Date(), new Date(post?.date!))
 
   return (
     <PostContainer>
@@ -81,7 +82,6 @@ export function Post() {
       <PostContent>
         <ReactMarkdown>{post ? post.body : ''}</ReactMarkdown>
       </PostContent>
-      <ScrollRestoration />
     </PostContainer>
   )
 }

@@ -71,4 +71,9 @@ export const PostContent = styled.div`
   p {
     color: ${(props) => props.theme['base-text']};
   }
+
+  img {
+    width: 100%;
+    margin: 1rem 0;
+  }
 `

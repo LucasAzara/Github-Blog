@@ -27,6 +27,7 @@ import { differenceInDays } from 'date-fns'
 import ReactMarkdown from 'react-markdown'
 // Loader Spinner
 import { Loader } from './Loader'
+import { useContextSelector } from 'use-context-selector'
 
 export function Post() {
   const [post, setPost] = useState<IPost>()
@@ -34,7 +35,7 @@ export function Post() {
   const { postId } = useParams()
 
   // BlogPosts
-  const { getPost } = useContext(BlogProvider)
+  const getPost = useContextSelector(BlogProvider, (context) => context.getPost)
 
   // Get Post Data
   useEffect(() => {

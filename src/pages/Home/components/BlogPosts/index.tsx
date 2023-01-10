@@ -5,13 +5,14 @@ import ReactMarkdown from 'react-markdown'
 // Date
 import differenceInDays from 'date-fns/differenceInDays'
 // Context
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { BlogProvider } from '../../../../contexts/BlogContext'
 // Zod & React Form Hook
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { NavLink } from 'react-router-dom'
+import { useContextSelector } from 'use-context-selector'
 
 // Zod Schema
 const searchFormSchema = z.object({
@@ -23,7 +24,16 @@ type TSearchFormSchema = z.infer<typeof searchFormSchema>
 
 export function BlogPosts() {
   // BlogPosts
-  const { blogPosts, getGithubPosts } = useContext(BlogProvider)
+  const blogPosts = useContextSelector(
+    BlogProvider,
+    (context) => context.blogPosts,
+  )
+
+  const getGithubPosts = useContextSelector(
+    BlogProvider,
+    (context) => context.getGithubPosts,
+  )
+
   // Number of Blog Posts
   const nPosts = blogPosts.length
   // React Form Hook
@@ -35,11 +45,13 @@ export function BlogPosts() {
     resolver: zodResolver(searchFormSchema),
   })
 
-  const handleSearch = async (data: TSearchFormSchema) => {
-    // await new Promise((resolve) => setTimeout(resolve, 2000))
-    // Query to search for Post
-    getGithubPosts(data.query)
-  }
+  const handleSearch = useCallback(
+    async (data: TSearchFormSchema) => {
+      // Query to search for Post
+      getGithubPosts(data.query)
+    },
+    [getGithubPosts],
+  )
 
   return (
     <Publications>

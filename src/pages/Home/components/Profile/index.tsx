@@ -8,13 +8,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 // Context
 import { useContext } from 'react'
+import { useContextSelector } from 'use-context-selector'
 import { BlogProvider } from '../../../../contexts/BlogContext'
 // CSS
 import { ProfileContainer, ProfileBio, ProfileStats } from './styles'
 
 export function Profile() {
   // Profile Info from Github API
-  const { profile } = useContext(BlogProvider)
+  const profile = useContextSelector(BlogProvider, (context) => {
+    return context.profile
+  })
 
   return (
     <ProfileContainer>

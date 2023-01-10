@@ -153,7 +153,12 @@ export function BlogContext({ children }: IBlogContextProviderProps) {
 
   return (
     <BlogProvider.Provider
-      value={{ profile, blogPosts, getPost, getGithubPosts }}
+      value={{
+        profile,
+        blogPosts,
+        getPost,
+        getGithubPosts,
+      }}
     >
       {children}
     </BlogProvider.Provider>

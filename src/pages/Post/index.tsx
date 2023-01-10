@@ -5,8 +5,10 @@ import { useContext, useEffect, useState } from 'react'
 import { BlogProvider, IPost } from '../../contexts/BlogContext'
 // CSS
 import {
+  PostBlur,
   PostContainer,
   PostContent,
+  PostLoader,
   PostNav,
   PostTitle,
   PostTitleInfo,
@@ -24,6 +26,9 @@ import {
 import { differenceInDays } from 'date-fns'
 // React Markdown
 import ReactMarkdown from 'react-markdown'
+// Loader Spinner
+import { Oval } from 'react-loader-spinner'
+import { ThemeContext } from 'styled-components'
 
 export function Post() {
   const [post, setPost] = useState<IPost>()
@@ -33,9 +38,11 @@ export function Post() {
   // BlogPosts
   const { getPost } = useContext(BlogProvider)
 
+  // Theme Data
+  const themeColors = useContext(ThemeContext)
+
   // Get Post Data
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     async function handleGetPost() {
       const postData = await getPost(postId!)
       setPost(postData)
@@ -50,6 +57,21 @@ export function Post() {
 
   return (
     <PostContainer>
+      <PostLoader className={post ? 'none' : ''}>
+        <PostBlur />
+        <Oval
+          height={150}
+          width={150}
+          color={themeColors.blue}
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={!post}
+          ariaLabel="oval-loading"
+          secondaryColor={themeColors.blue}
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </PostLoader>
       <PostTitle>
         <PostNav>
           <NavLink to="/">

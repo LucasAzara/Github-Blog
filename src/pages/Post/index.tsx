@@ -2,13 +2,12 @@
 import { NavLink, useParams } from 'react-router-dom'
 // Context
 import { useContext, useEffect, useState } from 'react'
-import { BlogProvider, IPost } from '../../contexts/BlogContext'
+import { BlogProvider } from '../../contexts/BlogContext'
+import { IPost } from '../../contexts/BlogContentActions'
 // CSS
 import {
-  PostBlur,
   PostContainer,
   PostContent,
-  PostLoader,
   PostNav,
   PostTitle,
   PostTitleInfo,
@@ -27,8 +26,7 @@ import { differenceInDays } from 'date-fns'
 // React Markdown
 import ReactMarkdown from 'react-markdown'
 // Loader Spinner
-import { Oval } from 'react-loader-spinner'
-import { ThemeContext } from 'styled-components'
+import { Loader } from './Loader'
 
 export function Post() {
   const [post, setPost] = useState<IPost>()
@@ -37,9 +35,6 @@ export function Post() {
 
   // BlogPosts
   const { getPost } = useContext(BlogProvider)
-
-  // Theme Data
-  const themeColors = useContext(ThemeContext)
 
   // Get Post Data
   useEffect(() => {
@@ -57,21 +52,9 @@ export function Post() {
 
   return (
     <PostContainer>
-      <PostLoader className={post ? 'none' : ''}>
-        <PostBlur />
-        <Oval
-          height={150}
-          width={150}
-          color={themeColors.blue}
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={!post}
-          ariaLabel="oval-loading"
-          secondaryColor={themeColors.blue}
-          strokeWidth={2}
-          strokeWidthSecondary={2}
-        />
-      </PostLoader>
+      {/* Loading Animation */}
+      <Loader post={post} />
+      {/* Post Header */}
       <PostTitle>
         <PostNav>
           <NavLink to="/">
@@ -101,6 +84,7 @@ export function Post() {
           </div>
         </PostTitleInfo>
       </PostTitle>
+      {/* Post Content */}
       <PostContent>
         <ReactMarkdown>{post ? post.body : ''}</ReactMarkdown>
       </PostContent>
